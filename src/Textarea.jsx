@@ -3,13 +3,17 @@ import Warning from "./Warning";
 
 export default function Textarea() {
   const [text, setText] = useState("");
-  const [showWarning, setShowWarning] = useState(false);
+  const [warningText, setWarningText] = useState("");
 
   const handleChange = (event) => {
     let newText = event.target.value;
+
+    //Basic Validation
     if (newText.includes("<script>")) {
-      setShowWarning(true);
       newText = newText.replace("<script>", "");
+      setWarningText("No script tag allowed!");
+    } else {
+      setWarningText("");
     }
     setText(newText);
   };
@@ -21,7 +25,7 @@ export default function Textarea() {
         placeholder="Enter your text"
         spellCheck="false"
       />
-      {showWarning && <Warning />}
+      {warningText !== "" ? <Warning text={warningText} /> : null}
     </div>
   );
 }

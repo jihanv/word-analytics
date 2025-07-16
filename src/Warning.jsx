@@ -1,3 +1,3 @@
-export default function Warning() {
-  return <p className="warning">No script tag allowed</p>;
+export default function Warning({ text }) {
+  return <p className="warning">{text}</p>;
 }
