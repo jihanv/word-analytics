@@ -1,18 +1,27 @@
 import { useState } from "react";
+import Warning from "./Warning";
 
 export default function Textarea() {
   const [text, setText] = useState("");
+  const [showWarning, setShowWarning] = useState(false);
 
+  const handleChange = (event) => {
+    let newText = event.target.value;
+    if (newText.includes("<script>")) {
+      setShowWarning(true);
+      newText = newText.replace("<script>", "");
+    }
+    setText(newText);
+  };
   return (
-    <textarea
-      value={text}
-      onChange={(event) => {
-        const newText = event.target.value;
-        setText(newText);
-      }}
-      className="textarea"
-      placeholder="Enter your text"
-      spellCheck="false"
-    />
+    <div className="textarea">
+      <textarea
+        value={text}
+        onChange={handleChange}
+        placeholder="Enter your text"
+        spellCheck="false"
+      />
+      {showWarning && <Warning />}
+    </div>
   );
 }
